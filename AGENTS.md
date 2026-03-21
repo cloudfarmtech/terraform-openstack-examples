@@ -10,12 +10,14 @@ This repository stores small, self-contained Terraform examples for working with
 - Default authentication method is OpenStack Application Credentials.
 - Use English only in repository documentation, comments, example text, and future additions.
 - Do not commit real secrets, `terraform.tfstate`, `.terraform/`, or filled `*.tfvars` files.
-- Keep each example independent and runnable on its own.
+- Treat content in `examples/` as step-by-step lessons.
+- Some lessons may depend on resources, outputs, or setup created in earlier lessons, so document dependencies explicitly.
 - Prefer simple, readable examples over reusable abstractions unless the example is specifically about modules.
 
 ## Example Layout
 
 - Put runnable examples in `examples/<nn>-<name>/`.
+- Keep lessons ordered so users can progress through them step by step.
 - Each example should usually contain `README.md`, `versions.tf`, `providers.tf`, `variables.tf`, and the minimum resources needed for the scenario.
 - If an example needs input values, add `terraform.tfvars.example` with placeholders only.
 
@@ -44,4 +46,5 @@ provider "openstack" {
 ## Documentation Expectations
 
 - Each example README should explain what it creates, required inputs, and how to run `terraform init`, `plan`, and `apply`.
+- If a lesson depends on a previous lesson, state that clearly at the top of the README and describe what must already exist.
 - Mention provider-specific assumptions when relevant, such as required network, image, flavor, key pair, or floating IP setup.

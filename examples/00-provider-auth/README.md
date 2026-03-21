@@ -17,3 +17,7 @@ A minimal Terraform configuration example for OpenStack authentication with `App
 4. Run `terraform plan`.
 
 This example does not create resources and serves as the base for future examples.
+
+## Next lesson
+
+After `terraform plan` works, continue to `examples/10-network` and reuse the same `terraform.tfvars` values for authentication, adding `external_network_name` and any optional network variables described there.

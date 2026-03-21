@@ -1,4 +1,4 @@
-# 20-compute-skeleton
+# 20-compute
 
 Placeholder for OpenStack compute examples.
 

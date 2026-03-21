@@ -1,4 +1,10 @@
 auth_url                      = "https://openstack.example.com:5000/v3"
-region                        = "ahams"
+region                        = "RegionOne"
 application_credential_id     = "replace-with-app-credential-id"
 application_credential_secret = "replace-with-app-credential-secret"
+
+external_network_name = "public"
+
+name_prefix    = "tf-lesson-network"
+private_cidr   = "192.168.42.0/24"
+dns_nameservers = []
