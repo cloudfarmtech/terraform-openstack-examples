@@ -9,3 +9,5 @@ override.tf.json
 *_override.tf.json
 terraform.tfvars
 *.auto.tfvars
+
+examples/20-compute/images/*.img

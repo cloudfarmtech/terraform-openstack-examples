@@ -1,0 +1,7 @@
+auth_url                      = "https://openstack.example.com:5000/v3"
+region                        = "RegionOne"
+application_credential_id     = "REPLACE_ME"
+application_credential_secret = "REPLACE_ME"
+
+# image_name = "tf-lesson-cirros-0.6.3-x86_64"
+# local_image_path = "/absolute/path/to/cirros-0.6.3-x86_64-disk.img"
