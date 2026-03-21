@@ -30,3 +30,9 @@ resource "openstack_networking_router_interface_v2" "private" {
   router_id = openstack_networking_router_v2.private.id
   subnet_id = openstack_networking_subnet_v2.private.id
 }
+
+# Allocates a floating IP from the external pool (same Neutron network name as the data source).
+# Not attached to a VM port yet; a compute lesson can set port_id or use association.
+resource "openstack_networking_floatingip_v2" "floating" {
+  pool = var.external_network_name
+}

@@ -1,6 +1,6 @@
 # 10-network
 
-Neutron lesson: build a small **private network** with a **subnet**, a **router** with a default gateway on the provider **external** network, and a **router interface** so instances on the subnet can reach outside via SNAT.
+Neutron lesson: build a small **private network** with a **subnet**, a **router** with a default gateway on the provider **external** network, a **router interface** so instances on the subnet can reach outside via SNAT, and **allocate one floating IP** from the external pool (not yet bound to a VM).
 
 ## What gets created
 
@@ -11,6 +11,7 @@ Neutron lesson: build a small **private network** with a **subnet**, a **router*
 | Subnet | `openstack_networking_subnet_v2.private` | IPv4 CIDR on that network |
 | Router | `openstack_networking_router_v2.private` | Default gateway to the external network |
 | Router interface | `openstack_networking_router_interface_v2.private` | Connects subnet to the router |
+| Floating IP | `openstack_networking_floatingip_v2.floating` | Public IP from `external_network_name` pool (allocation only) |
 
 ## Prerequisites
 
@@ -56,6 +57,8 @@ Copy or merge your `terraform.tfvars` from `00-provider-auth`, then add the less
 - `subnet_id` — private subnet
 - `router_id` — router with external gateway
 - `external_network_id` — resolved external network (same as data source)
+- `floating_ip_id` — floating IP resource ID
+- `floating_ip_address` — allocated public IPv4 (use after associating to an instance port)
 
 Use these in follow-up lessons (for example `examples/20-compute`). Keep state or record the values if a later lesson depends on them.
 

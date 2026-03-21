@@ -17,3 +17,13 @@ output "external_network_id" {
   description = "External network ID used for SNAT"
   value       = data.openstack_networking_network_v2.external.id
 }
+
+output "floating_ip_id" {
+  description = "Allocated floating IP resource ID"
+  value       = openstack_networking_floatingip_v2.floating.id
+}
+
+output "floating_ip_address" {
+  description = "Allocated public IPv4 address"
+  value       = openstack_networking_floatingip_v2.floating.address
+}
