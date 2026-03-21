@@ -1,67 +1,96 @@
 # 10-network
 
-Neutron lesson: build a small **private network** with a **subnet**, a **router** with a default gateway on the provider **external** network, a **router interface** so instances on the subnet can reach outside via SNAT, and **allocate one floating IP** from the external pool (not yet bound to a VM).
+Neutron lesson in **one directory**: (1) **north–south** — private network, subnet, router with **external gateway**, floating IP; (2) **east–west / internal** — second topology with an **internal router** (no external gateway), two subnets, and an **extra static route**.
 
-## What gets created
+## Part A — External gateway and floating IP
+
+```mermaid
+flowchart LR
+    subgraph ext["Provider external network"]
+        EN["external_network_name\n(data lookup)"]
+    end
+    subgraph prv["Private"]
+        RT["Router"]
+        SN["Subnet\nprivate_cidr"]
+    end
+    FIP["Floating IP\nfrom pool, no port yet"]
+    EN -->|"default gateway / SNAT"| RT
+    RT -->|"router interface"| SN
+    EN -.->|"allocate"| FIP
+```
+
+*Rendered with [Mermaid](https://mermaid.js.org/). Visible on GitHub/GitLab; in other editors enable Mermaid preview if you see the source.*
 
 | Piece | Terraform | Role |
 |--------|-----------|------|
-| External network | `data.openstack_networking_network_v2.external` | Lookup by `external_network_name` (public/provider network) |
+| External network | `data.openstack_networking_network_v2.external` | Lookup by `external_network_name` |
 | Private network | `openstack_networking_network_v2.private` | L2 network |
-| Subnet | `openstack_networking_subnet_v2.private` | IPv4 CIDR on that network |
+| Subnet | `openstack_networking_subnet_v2.private` | IPv4 CIDR |
 | Router | `openstack_networking_router_v2.private` | Default gateway to the external network |
-| Router interface | `openstack_networking_router_interface_v2.private` | Connects subnet to the router |
-| Floating IP | `openstack_networking_floatingip_v2.floating` | Public IP from `external_network_name` pool (allocation only) |
+| Router interface | `openstack_networking_router_interface_v2.private` | Subnet ↔ router |
+| Floating IP | `openstack_networking_floatingip_v2.floating` | Allocation from external pool (not bound to a VM yet) |
+
+## Part B — Internal router and static route
+
+```mermaid
+flowchart TB
+    SA["Subnet A\nprivate_cidr_a"] --> IR["Internal router\nno external gateway"]
+    SB["Subnet B\nprivate_cidr_b"] --> IR
+    IR --> SR["Static route\nstatic_route_destination_cidr\nvia static_route_next_hop\n(IP on subnet A or B)"]
+```
+
+*Same Mermaid note as Part A.*
+
+| Piece | Terraform | Role |
+|--------|-----------|------|
+| Networks A / B | `openstack_networking_network_v2.a` / `.b` | Two isolated private networks |
+| Subnets | `openstack_networking_subnet_v2.a` / `.b` | `private_cidr_a`, `private_cidr_b` |
+| Internal router | `openstack_networking_router_v2.internal` | **No** `external_network_id` |
+| Interfaces | `openstack_networking_router_interface_v2.a` / `.b` | Router ↔ both subnets |
+| Static route | `openstack_networking_router_route_v2.static` | Remote prefix via `static_route_next_hop` |
+
+See `main.tf` and `internal_router.tf`.
 
 ## Prerequisites
 
-Finish `examples/00-provider-auth` so Application Credentials work. Reuse the same values:
+Finish `examples/00-provider-auth`. Reuse:
 
-- `auth_url`
-- `region`
-- `application_credential_id`
-- `application_credential_secret`
-
-Copy or merge your `terraform.tfvars` from `00-provider-auth`, then add the lesson-specific variables below.
+- `auth_url`, `region`, `application_credential_id`, `application_credential_secret`
 
 ## Inputs
 
-**Required for this lesson**
+**Required**
 
-- `external_network_name` — Neutron name of the provider external/public network (often `public`, `external`, etc.). Resolve with Horizon or `openstack network list --external`.
+- `external_network_name` — provider external/public network name (Part A and floating IP pool).
+- `static_route_next_hop` — IPv4 **inside** `private_cidr_a` or `private_cidr_b` (Neutron requirement).
 
 **Optional**
 
-- `name_prefix` — prefix for resource names (default `tf-lesson-network`)
-- `private_cidr` — private IPv4 CIDR (default `192.168.42.0/24`)
-- `dns_nameservers` — DNS servers for the subnet if your cloud needs them
+- `name_prefix` (default `tf-lesson-network`)
+- `private_cidr` — Part A subnet (default `192.168.42.0/24`)
+- `private_cidr_a`, `private_cidr_b` — Part B (defaults `192.168.10.0/24`, `192.168.20.0/24`)
+- `static_route_destination_cidr` (default `172.16.0.0/16`)
+- `dns_nameservers`
 
 ## Layout
 
-- `main.tf` — networking resources (see comments in file)
-- `providers.tf`, `versions.tf` — OpenStack provider `3.4.0`
-- `variables.tf` — inputs
-- `outputs.tf` — IDs for later lessons
-- `terraform.tfvars.example` — template for `terraform.tfvars`
+- `main.tf` — Part A
+- `internal_router.tf` — Part B
+- `providers.tf`, `versions.tf`, `variables.tf`, `outputs.tf`, `terraform.tfvars.example`
 
 ## Steps
 
-1. Copy `terraform.tfvars.example` to `terraform.tfvars` and set auth plus `external_network_name`.
-2. `terraform init`
-3. `terraform plan`
-4. `terraform apply`
+1. Copy `terraform.tfvars.example` to `terraform.tfvars` and set auth, `external_network_name`, and `static_route_next_hop`.
+2. `terraform init` / `plan` / `apply`.
 
 ## Outputs
 
-- `network_id` — private network
-- `subnet_id` — private subnet
-- `router_id` — router with external gateway
-- `external_network_id` — resolved external network (same as data source)
-- `floating_ip_id` — floating IP resource ID
-- `floating_ip_address` — allocated public IPv4 (use after associating to an instance port)
+**Part A:** `network_id`, `subnet_id`, `router_id`, `external_network_id`, `floating_ip_id`, `floating_ip_address`
 
-Use these in follow-up lessons (for example `examples/20-compute`). Keep state or record the values if a later lesson depends on them.
+**Part B:** `network_a_id`, `subnet_a_id`, `network_b_id`, `subnet_b_id`, `internal_router_id`, `static_route_id`
+
+Use these in later lessons (for example `examples/20-compute`).
 
 ## Troubleshooting
 
-If `terraform plan` fails with **no suitable endpoint in the service catalog** for networking, the Neutron client cannot be built from Keystone (region, env vars, or cloud-specific provider settings). Clear stray `OS_*` variables, confirm `region`, then see the [OpenStack provider docs](https://registry.terraform.io/providers/terraform-provider-openstack/openstack/latest/docs).
+If `terraform plan` fails with **no suitable endpoint in the service catalog** for networking, see the [OpenStack provider docs](https://registry.terraform.io/providers/terraform-provider-openstack/openstack/latest/docs). Clear stray `OS_*` env vars and confirm `region`.

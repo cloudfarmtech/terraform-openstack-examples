@@ -8,3 +8,9 @@ external_network_name = "public"
 name_prefix    = "tf-lesson-network"
 private_cidr   = "192.168.42.0/24"
 dns_nameservers = []
+
+private_cidr_a = "192.168.10.0/24"
+private_cidr_b = "192.168.20.0/24"
+
+static_route_destination_cidr = "172.16.0.0/16"
+static_route_next_hop         = "192.168.10.250"

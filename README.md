@@ -18,7 +18,7 @@ A collection of small Terraform examples for working with OpenStack.
 ## Structure
 
 - `examples/00-provider-auth` - starter provider and variables template
-- `examples/10-network` - private network, subnet, router (lesson after `00-provider-auth`)
+- `examples/10-network` - external gateway + floating IP; internal router, static route (after `00-provider-auth`)
 - `examples/20-compute` - placeholder for compute examples
 - `modules/` - shared modules if they become necessary
 

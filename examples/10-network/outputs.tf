@@ -27,3 +27,33 @@ output "floating_ip_address" {
   description = "Allocated public IPv4 address"
   value       = openstack_networking_floatingip_v2.floating.address
 }
+
+output "network_a_id" {
+  description = "Internal-router: first private network ID"
+  value       = openstack_networking_network_v2.a.id
+}
+
+output "subnet_a_id" {
+  description = "Internal-router: first subnet ID"
+  value       = openstack_networking_subnet_v2.a.id
+}
+
+output "network_b_id" {
+  description = "Internal-router: second private network ID"
+  value       = openstack_networking_network_v2.b.id
+}
+
+output "subnet_b_id" {
+  description = "Internal-router: second subnet ID"
+  value       = openstack_networking_subnet_v2.b.id
+}
+
+output "internal_router_id" {
+  description = "Internal router ID (no external gateway)"
+  value       = openstack_networking_router_v2.internal.id
+}
+
+output "static_route_id" {
+  description = "Internal-router: extra static route ID"
+  value       = openstack_networking_router_route_v2.static.id
+}

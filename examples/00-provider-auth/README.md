@@ -20,4 +20,4 @@ This example does not create resources and serves as the base for future example
 
 ## Next lesson
 
-After `terraform plan` works, continue to `examples/10-network` and reuse the same `terraform.tfvars` values for authentication, adding `external_network_name` and any optional network variables described there.
+After `terraform plan` works, continue to `examples/10-network` and reuse the same `terraform.tfvars` values for authentication, adding `external_network_name`, `static_route_next_hop`, and any other variables described in that lesson’s README.
