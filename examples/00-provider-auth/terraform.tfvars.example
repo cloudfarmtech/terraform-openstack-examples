@@ -1,0 +1,4 @@
+auth_url                      = "https://openstack.example.com:5000/v3"
+region                        = "RegionOne"
+application_credential_id     = "replace-with-app-credential-id"
+application_credential_secret = "replace-with-app-credential-secret"
