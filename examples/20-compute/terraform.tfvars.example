@@ -3,5 +3,18 @@ region                        = "RegionOne"
 application_credential_id     = "REPLACE_ME"
 application_credential_secret = "REPLACE_ME"
 
+external_network_name = "public"
+flavor_name           = "p.4vcpu.8gb"
+
+# boot_volume_size_gb = 10
+# volume_type         = "your-cinder-type"
+
+# private_cidr = "192.168.42.0/24"
+# dns_nameservers = ["8.8.8.8", "8.8.4.4"]
+
 # image_name = "tf-lesson-cirros-0.6.3-x86_64"
 # local_image_path = "/absolute/path/to/cirros-0.6.3-x86_64-disk.img"
+
+# keypair_name = "tf-lesson-key"
+# public_key_path = "~/.ssh/id_ed25519.pub"
+# public_key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAI..."

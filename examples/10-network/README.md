@@ -89,7 +89,7 @@ Finish `examples/00-provider-auth`. Reuse:
 
 **Part B:** `network_a_id`, `subnet_a_id`, `network_b_id`, `subnet_b_id`, `internal_router_id`, `static_route_id`
 
-Use these in later lessons (for example `examples/20-compute`).
+Use these in later lessons (for example `examples/20-compute` builds a similar topology with its own network and VM).
 
 ## Troubleshooting
 
