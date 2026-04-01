@@ -1,0 +1,17 @@
+auth_url                      = "https://openstack.example.com:5000/v3"
+region                        = "RegionOne"
+application_credential_id     = "REPLACE_ME"
+application_credential_secret = "REPLACE_ME"
+
+keypair_name = "your-nova-keypair-name"
+
+cluster_name            = "tf-lesson-k8s"
+cluster_template_name   = "Kubernetes v1.34.4"
+master_count            = 1
+node_count              = 1
+create_timeout          = 60
+
+flavor_name             = "your-worker-flavor"
+master_flavor_name      = "your-master-flavor"
+
+floating_ip_enabled     = true
