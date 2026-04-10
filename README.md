@@ -20,7 +20,8 @@ A collection of small Terraform examples for working with OpenStack.
 - `examples/00-provider-auth` - starter provider and variables template
 - `examples/10-network` - external gateway + floating IP; internal router, static route (after `00-provider-auth`)
 - `examples/20-compute` - image, key pair, private network + router + VM + floating IP (self-contained; mirrors `10-network` Part A for networking)
-- `examples/30-kubernetes` - Magnum Kubernetes cluster from an existing cluster template
+- `examples/30-kubernetes` - Magnum Kubernetes cluster from an existing cluster template (single default worker pool)
+- `examples/31-kubernetes-nodegroups` - Magnum cluster plus one extra worker node group (`cluster.tf`) and HA masters
 - `modules/` - shared modules if they become necessary
 
 ## Quick Start
