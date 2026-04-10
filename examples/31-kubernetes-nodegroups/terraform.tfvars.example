@@ -1,0 +1,21 @@
+auth_url                      = "https://openstack.example.com:5000/v3"
+region                        = "RegionOne"
+application_credential_id     = "REPLACE_ME"
+application_credential_secret = "REPLACE_ME"
+
+keypair_name = "your-nova-keypair-name"
+
+# cluster
+cluster_name          = "tf-lesson-k8s-nodegroups"
+cluster_template_name = "Kubernetes v1.34.4"
+master_count          = 1
+node_count            = 1
+master_flavor_name    = "m.2vcpu.16gb"
+floating_ip_enabled   = true
+create_timeout        = 60
+
+# nodegroup
+nodegroup_name       = "batch-worker"
+nodegroup_image      = "CAPI v1.34.4 x86_64"
+nodegroup_flavor     = "g.8vcpu.32gb"
+nodegroup_node_count = 1
