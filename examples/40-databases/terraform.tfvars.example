@@ -1,0 +1,38 @@
+auth_url                      = "https://openstack.example.com:5000/v3"
+region                        = "RegionOne"
+application_credential_id     = "REPLACE_ME"
+application_credential_secret = "REPLACE_ME"
+
+external_network_name = "public"
+
+# Trove data volume: size and type are both required by openstack_db_instance_v1 (provider 3.4.x)
+db_volume_type    = "your-cinder-volume-type"
+db_volume_size_gb = 20
+
+# Test database and user shared across MySQL, MariaDB, and PostgreSQL (see mysql.tf, mariadb.tf, postgresql.tf)
+db_test_user_password = "REPLACE_ME"
+# db_test_database_name = "testdb"
+# db_test_user_name     = "testuser"
+# db_test_user_host     = "192.168.44.%"   # MySQL/MariaDB only; ignored for PostgreSQL
+
+# private_cidr = "192.168.44.0/24"
+# dns_nameservers = ["8.8.8.8", "8.8.4.4"]
+
+# vm_image_name   = "Ubuntu Noble Numbat x86_64"
+# vm_flavor_name  = "g.1vcpu.4gb"
+# db_flavor_name  = "p.4vcpu.8gb"
+# vm_boot_volume_size_gb = 20
+# vm_volume_type         = "your-cinder-volume-type"
+
+# Per-engine datastore versions (must be offered by your Trove deployment)
+# mysql_datastore_version      = "8.4"
+# mariadb_datastore_version    = "11.4"
+# postgresql_datastore_version = "18"
+
+# Per-engine instance names
+# mysql_instance_name      = "tf-lesson-mysql"
+# mariadb_instance_name    = "tf-lesson-mariadb"
+# postgresql_instance_name = "tf-lesson-postgresql"
+
+# keypair_name    = "tf-lesson-db-key"
+# public_key_path = "~/.ssh/id_ed25519.pub"
