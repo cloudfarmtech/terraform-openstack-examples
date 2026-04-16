@@ -17,5 +17,5 @@ create_timeout        = 60
 # nodegroup
 nodegroup_name       = "batch-worker"
 nodegroup_image      = "CAPI v1.34.4 x86_64"
-nodegroup_flavor     = "g.8vcpu.32gb"
+nodegroup_flavor     = "p.2vcpu.4gb"
 nodegroup_node_count = 1
